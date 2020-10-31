@@ -1,0 +1,46 @@
+.querySelector {
+    width: 635px;
+    padding: 10px;
+}
+
+.querySelector .allQueries {
+    display: flex;
+    padding: 5px;
+}
+
+.querySelector .allQueries .where {
+    width: 60px;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 18px;
+}
+
+.row>* {
+    margin: 0 6px;
+}
+
+.applyBtn {
+    float: right;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 10px;
+    width: fit-content;
+}
+
+.removeBtn {
+    line-height: 15px;
+    color: red;
+    font-weight: bold;
+}
+
+.addBtn,
+.applyBtn {
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
