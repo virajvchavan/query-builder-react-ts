@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Row } from '../../queryConfig';
 import Select, { ValueType } from 'react-select';
+import StyledInput from '../StyledInput/StyledInput';
 
 interface Props {
     lhs: string,
@@ -11,7 +12,8 @@ interface Props {
     queryConfig: Row,
     lhsOptions: Array<OptionType>,
     onLhsChange: Function,
-    onOperatorChange: Function
+    onOperatorChange: Function,
+    onRhsChange: Function
 }
 
 type OptionType = {
@@ -19,8 +21,12 @@ type OptionType = {
     label: string;
 };
 
-export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange }: Props) {
+export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange }: Props) {
     const onRemoveClick = () => removeRow(index);
+
+    const onNormalRhsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        onRhsChange(index, evt.target.value);
+    }
 
     let lhsValue: OptionType = {
         label: lhsOptions.find(item => item.value === lhs)?.label || lhs,
@@ -40,10 +46,10 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
     let RhsElement: ReactNode;
     switch (queryConfig.rhs.type) {
         case "text":
-            RhsElement = <input className="styled-input" type="text" />
+            RhsElement = <StyledInput type="text" onChange={onNormalRhsChange} />
             break;
         case "number":
-            RhsElement = <input type="number" />
+            RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} />
             break;
         case "multi-select-list":
             RhsElement = <input type="text" />
