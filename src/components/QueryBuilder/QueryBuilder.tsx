@@ -3,7 +3,7 @@ import { ConfigType } from '../../queryConfig';
 import './QueryBuilder.css';
 import QueryRow from './QueryRow';
 
-type RhsType =  string | Array<number> | Array<string>;
+type RhsType = string | Array<number> | Array<string>;
 
 interface QueryRowType {
     lhs: string,
@@ -20,12 +20,26 @@ type OptionType = {
     label: string;
 };
 
-export default function QueryBuilder({queryConfig}: Props) {
+export default function QueryBuilder({ queryConfig }: Props) {
     const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
 
     let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
         return { value: lhs, label: queryConfig[lhs].label }
-    })
+    });
+
+    const onLhsChange = (index: number, lhs: OptionType) => {
+        let newRows = [...queryRows];
+        newRows[index].lhs = lhs.value;
+        let operator = queryConfig[lhs.value].operators[0];
+        newRows[index].operator = operator.value;
+        setQueryRows(newRows);
+    }
+
+    const onOperatorChange = (index: number, operator: OptionType) => {
+        let newRows = [...queryRows];
+        newRows[index].operator = operator.value;
+        setQueryRows(newRows);
+    }
 
     const addQueryRow = () => {
         let operator = queryConfig[lhsOptions[0].value].operators[0];
@@ -51,15 +65,17 @@ export default function QueryBuilder({queryConfig}: Props) {
         <div className="allQueries">
             <div className="where">where</div>
             <div className="queryRows">
-            {queryRows.map((row, index) => {
-                return <QueryRow
-                    queryConfig={queryConfig[row.lhs]}
-                    removeRow={removeRow}
-                    key={index} index={index}
-                    lhs={row.lhs} rhs={row.rhs} operator={row.operator}
-                    lhsOptions={lhsOptions}
-                />
-            })}
+                {queryRows.map((row, index) => {
+                    return <QueryRow
+                        queryConfig={queryConfig[row.lhs]}
+                        removeRow={removeRow}
+                        key={index} index={index}
+                        lhs={row.lhs} rhs={row.rhs} operator={row.operator}
+                        lhsOptions={lhsOptions}
+                        onLhsChange={onLhsChange}
+                        onOperatorChange={onOperatorChange}
+                    />
+                })}
             </div>
         </div>
         <div className="btn addBtn" onClick={addQueryRow}>+ Add</div>

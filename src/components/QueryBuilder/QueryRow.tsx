@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Row } from '../../queryConfig';
-import Select from 'react-select';
+import Select, { ValueType } from 'react-select';
 
 interface Props {
     lhs: string,
@@ -9,7 +9,9 @@ interface Props {
     index: number,
     removeRow: Function,
     queryConfig: Row,
-    lhsOptions: Array<OptionType>
+    lhsOptions: Array<OptionType>,
+    onLhsChange: Function,
+    onOperatorChange: Function
 }
 
 type OptionType = {
@@ -17,7 +19,7 @@ type OptionType = {
     label: string;
 };
 
-export default function QueryRow({lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions}: Props) {
+export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange }: Props) {
     const onRemoveClick = () => removeRow(index);
 
     let lhsValue: OptionType = {
@@ -25,9 +27,9 @@ export default function QueryRow({lhs, rhs, operator, index, queryConfig, remove
         value: lhs
     };
 
-    let operatorOptions: Array<{value: string, label: string}> = [];
+    let operatorOptions: Array<{ value: string, label: string }> = [];
     queryConfig.operators.forEach((operator, index) => {
-        operatorOptions.push({value: operator.value, label: operator.text});
+        operatorOptions.push({ value: operator.value, label: operator.text });
     });
 
     let operatorValue: OptionType = {
@@ -37,10 +39,18 @@ export default function QueryRow({lhs, rhs, operator, index, queryConfig, remove
 
     return <div className="row">
         <div className="lhs">
-            <Select options={lhsOptions} defaultValue={lhsOptions[0]} value={lhsValue} />
+            <Select
+                options={lhsOptions}
+                onChange={(newValue: ValueType<OptionType>) => onLhsChange(index, newValue)}
+                defaultValue={lhsOptions[0]} value={lhsValue}
+            />
         </div>
         <div className="operator">
-            <Select options={operatorOptions} value={operatorValue} />
+            <Select
+                options={operatorOptions}
+                onChange={(newValue: ValueType<OptionType>) => onOperatorChange(index, newValue)}
+                value={operatorValue}
+            />
         </div>
         <div className="rhs">
             <div>RHS</div>
