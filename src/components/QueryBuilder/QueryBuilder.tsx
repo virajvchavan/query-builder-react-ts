@@ -15,10 +15,15 @@ interface Props {
     queryConfig: ConfigType
 }
 
+type OptionType = {
+    value: string;
+    label: string;
+};
+
 export default function QueryBuilder({queryConfig}: Props) {
     const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
 
-    let lhsOptions = Object.keys(queryConfig).map(lhs => {
+    let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
         return { value: lhs, label: queryConfig[lhs].label }
     })
 
@@ -52,6 +57,7 @@ export default function QueryBuilder({queryConfig}: Props) {
                     removeRow={removeRow}
                     key={index} index={index}
                     lhs={row.lhs} rhs={row.rhs} operator={row.operator}
+                    lhsOptions={lhsOptions}
                 />
             })}
             </div>

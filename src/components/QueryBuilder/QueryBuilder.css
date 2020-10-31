@@ -44,3 +44,15 @@
     font-weight: bold;
     border-radius: 5px;
 }
+
+.lhs {
+    width: 150px;
+}
+
+.operator {
+    width: 160px;
+}
+
+.rhs {
+    width: 251px;
+}
