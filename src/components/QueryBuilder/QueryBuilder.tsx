@@ -1,7 +1,12 @@
 import React from 'react';
+import { ConfigType } from '../../queryConfig';
 import './QueryBuilder.css';
 
-export default function QueryBuilder() {
+interface Props {
+    queryConfig: ConfigType
+}
+
+export default function QueryBuilder({queryConfig}: Props) {
     return <div className="querySelector">
         <div className="allQueries">
             <div className="where">where</div>

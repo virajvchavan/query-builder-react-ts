@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import QueryBuilder from './components/QueryBuilder';
+import queryConfig from './queryConfig';
 
 function App() {
   console.log("hey");
   return (
     <div className="App">
-      <QueryBuilder />
+      <QueryBuilder queryConfig={queryConfig} />
     </div>
   );
 }
