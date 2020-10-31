@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Row } from '../../queryConfig';
 import Select, { ValueType } from 'react-select';
 
@@ -37,6 +37,24 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
         value: operator
     }
 
+    let RhsElement: ReactNode;
+    switch (queryConfig.rhs.type) {
+        case "text":
+            RhsElement = <input className="styled-input" type="text" />
+            break;
+        case "number":
+            RhsElement = <input type="number" />
+            break;
+        case "multi-select-list":
+            RhsElement = <input type="text" />
+            break;
+        case "multi-select-numbers":
+            RhsElement = <input type="text" />
+            break;
+        default:
+            break;
+    }
+
     return <div className="row">
         <div className="lhs">
             <Select
@@ -53,7 +71,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
             />
         </div>
         <div className="rhs">
-            <div>RHS</div>
+            {RhsElement}
         </div>
         <div className="btn removeBtn" onClick={onRemoveClick}>X</div>
     </div>;
