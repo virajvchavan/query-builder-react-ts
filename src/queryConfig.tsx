@@ -4,18 +4,21 @@ interface Operator {
 }
 
 export interface Row {
+    label: string,
     operators: Array<Operator>;
     rhs: {
         type: string;
         config?: string;
     }
 }
+
 export interface ConfigType {
     [key: string]: Row;
 }
 
 const queryConfig: ConfigType = {
     account: {
+        label: "Account",
         operators: [
             { value: "contains", text: "contains" },
             { value: "not-contains", text: "not contains" }
@@ -23,6 +26,7 @@ const queryConfig: ConfigType = {
         rhs: { type: "multi-select-numbers", config: "range:1-1000" }
     },
     country: {
+        label: "Country",
         operators: [
             { value: "contains", text: "contains" },
             { value: "not-contains", text: "not contains" }
@@ -30,6 +34,7 @@ const queryConfig: ConfigType = {
         rhs:{ type: "multi-select-list", config: "file:countries.json" }
     },
     campaign: {
+        label: "Campaign",
         operators: [
             { value: "starts-with", text: "starts with" },
             { value: "contains", text: "contains" },
@@ -38,6 +43,7 @@ const queryConfig: ConfigType = {
         rhs: { type: "text" }
     },
     revenue: {
+        label: "Revenue",
         operators: [
             { value: ">", text: "is greater than" },
             { value: "<", text: "is less than" },
