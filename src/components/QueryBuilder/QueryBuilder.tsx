@@ -41,6 +41,12 @@ export default function QueryBuilder({ queryConfig }: Props) {
         setQueryRows(newRows);
     }
 
+    const onCustomSelectRhsChange = (index: number, rhs: Array<OptionType>) => {
+        let newRows = [...queryRows];
+        newRows[index].rhs = rhs.map(item => item.value);
+        setQueryRows(newRows);
+    }
+
     const onOperatorChange = (index: number, operator: OptionType) => {
         let newRows = [...queryRows];
         newRows[index].operator = operator.value;
@@ -81,6 +87,7 @@ export default function QueryBuilder({ queryConfig }: Props) {
                         onLhsChange={onLhsChange}
                         onOperatorChange={onOperatorChange}
                         onRhsChange={onRhsChange}
+                        onCustomSelectRhsChange={onCustomSelectRhsChange}
                     />
                 })}
             </div>

@@ -13,7 +13,8 @@ interface Props {
     lhsOptions: Array<OptionType>,
     onLhsChange: Function,
     onOperatorChange: Function,
-    onRhsChange: Function
+    onRhsChange: Function,
+    onCustomSelectRhsChange: Function
 }
 
 type OptionType = {
@@ -21,11 +22,21 @@ type OptionType = {
     label: string;
 };
 
-export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange }: Props) {
+const countriesOptions: Array<OptionType> = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
+
+export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange, onCustomSelectRhsChange }: Props) {
     const onRemoveClick = () => removeRow(index);
 
     const onNormalRhsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         onRhsChange(index, evt.target.value);
+    }
+
+    const onSelectRhsChange = (newElement: ValueType<OptionType>) => {
+        onCustomSelectRhsChange(index, newElement)
     }
 
     let lhsValue: OptionType = {
@@ -52,7 +63,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
             RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} />
             break;
         case "multi-select-list":
-            RhsElement = <input type="text" />
+            RhsElement = <Select options={countriesOptions} onChange={onSelectRhsChange} isMulti={true} />
             break;
         case "multi-select-numbers":
             RhsElement = <input type="text" />
