@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Row } from '../../queryConfig';
+import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
 import StyledInput from '../StyledInput/StyledInput';
+import { JsonObjectExpression } from 'typescript';
 
 interface Props {
     lhs: string,
@@ -22,11 +23,9 @@ type OptionType = {
     label: string;
 };
 
-const countriesOptions: Array<OptionType> = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+type JsonType = {
+    [key: string]: string
+}
 
 export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange, onCustomSelectRhsChange }: Props) {
     const onRemoveClick = () => removeRow(index);
@@ -63,7 +62,16 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
             RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} />
             break;
         case "multi-select-list":
-            RhsElement = <Select options={countriesOptions} onChange={onSelectRhsChange} isMulti={true} />
+            let optionsList: Array<OptionType> = [];
+            let rules = queryConfig.rhs.config?.split(";");
+            rules?.forEach(rule => {
+                let [ruleName, ruleValue] = rule.split(":");
+                if (ruleName === "file") {
+                    let optionsJson: JsonType = require("../../queryConfig/" + ruleValue);
+                    optionsList = Object.keys(optionsJson).map(key => { return {value: key, label: optionsJson[key] }});
+                }
+            });
+            RhsElement = <Select options={optionsList} onChange={onSelectRhsChange} isMulti={true} />
             break;
         case "multi-select-numbers":
             RhsElement = <input type="text" />

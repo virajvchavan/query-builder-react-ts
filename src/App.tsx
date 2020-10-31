@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import QueryBuilder from './components/QueryBuilder';
-import queryConfig from './queryConfig';
+import queryConfig from './queryConfig/queryConfig';
 
 function App() {
   console.log("hey");

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConfigType } from '../../queryConfig';
+import { ConfigType } from '../../queryConfig/queryConfig';
 import './QueryBuilder.css';
 import QueryRow from './QueryRow';
 
