@@ -162,6 +162,10 @@
     box-sizing: border-box;
     cursor: pointer;
 }
+.multi-select-BtnContainer .multi-select-btn.add-all-btn {
+    color: green;
+    font-size: 25px;
+}
 .multi-select-BtnContainer .multi-select-btn svg {
     display: inline-block;
     fill: currentColor;

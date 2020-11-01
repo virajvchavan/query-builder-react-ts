@@ -47,12 +47,18 @@ const MultiValueInputSelector = (props: Props) => {
         }
     };
 
+    const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            onAddBtnClick();
+        }
+    }
+
     return (
         <div className="multi-input-container">
             <div className="multi-input-control">
                 <div className="multi-select-valueContainer">
-                    {values.map(value => {
-                        return <div className="multi-select-value">
+                    {values.map((value, index) => {
+                        return <div key={index} className="multi-select-value">
                             <div className="multi-select-value-text">{value}</div>
                             <div className="multi-select-value-closeBtn" data-value={value} onClick={() => { removeValue(value) }}>
                                 <CloseIcon size="14" />
@@ -61,7 +67,7 @@ const MultiValueInputSelector = (props: Props) => {
                     })}
                     <div className="multi-select-inputBox">
                         <div style={{display: "inline-block", width: "100%"}}>
-                            <input onChange={onInputChange} placeholder="Enter values (1-1000)" type="number" min="0" max="1000" value={currentValue || ""} />
+                            <input onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type="number" min="0" max="1000" value={currentValue || ""} />
                         </div>
                     </div>
                 </div>
@@ -72,7 +78,7 @@ const MultiValueInputSelector = (props: Props) => {
                         </div>
                     )}
                     <div className="multi-select-btnSeparator"></div>
-                    <div className="multi-select-btn" onClick={onAddBtnClick}>
+                    <div className="multi-select-btn add-all-btn" onClick={onAddBtnClick}>
                         +
                     </div>
                 </div>
