@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
 import StyledInput from '../StyledInput/StyledInput';
-import { JsonObjectExpression } from 'typescript';
 import MultiValueInputSelector from '../MultiValueInputSelector/MultiValueInputSelector';
 
 interface Props {
@@ -44,7 +43,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
     }
 
     let lhsValue: OptionType = {
-        label: lhsOptions.find(item => item.value === lhs)?.label || lhs,
+        label: queryConfig.label,
         value: lhs
     };
 
