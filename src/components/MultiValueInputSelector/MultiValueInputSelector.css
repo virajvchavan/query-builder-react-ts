@@ -101,7 +101,11 @@
     padding-right: 4px;
     box-sizing: border-box;
 }
-.multi-select-value-closeBtn img{
+.multi-select-value-closeBtn:hover {
+    background-color: #FFBDAD;
+    color: #DE350B;
+}
+.multi-select-value-closeBtn svg{
     display: inline-block;
     fill: black;
     line-height: 1;
@@ -116,6 +120,7 @@
     visibility: visible;
     color: hsl(0,0%,20%);
     box-sizing: border-box;
+    font-size: 14px;
 }
 .multi-select-inputBox input {
     box-sizing: content-box;
@@ -157,7 +162,7 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.multi-select-BtnContainer .multi-select-btn img {
+.multi-select-BtnContainer .multi-select-btn svg {
     display: inline-block;
     fill: currentColor;
     line-height: 1;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {ReactComponent as CloseBtnSvg} from './closeBtn.svg';
 import './MultiValueInputSelector.css';
+import { CloseIcon } from '../shared/icons';
 
 interface Props {
     defaultValues?: Array<number>,
@@ -55,7 +55,7 @@ const MultiValueInputSelector = (props: Props) => {
                         return <div className="multi-select-value">
                             <div className="multi-select-value-text">{value}</div>
                             <div className="multi-select-value-closeBtn" data-value={value} onClick={() => { removeValue(value) }}>
-                                <CloseBtnSvg />
+                                <CloseIcon size="14" />
                             </div>
                         </div>
                     })}
@@ -68,7 +68,7 @@ const MultiValueInputSelector = (props: Props) => {
                 <div className="multi-select-BtnContainer">
                     {values.length > 0 && (
                         <div className="multi-select-btn">
-                            <CloseBtnSvg onClick={removeAllValues} />
+                            <CloseIcon size="20" onClick={removeAllValues} />
                         </div>
                     )}
                     <div className="multi-select-btnSeparator"></div>
