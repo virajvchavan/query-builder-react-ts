@@ -165,6 +165,7 @@
 .multi-select-BtnContainer .multi-select-btn.add-all-btn {
     color: green;
     font-size: 25px;
+    padding: 0 8px;
 }
 .multi-select-BtnContainer .multi-select-btn svg {
     display: inline-block;

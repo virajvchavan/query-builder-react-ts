@@ -4,7 +4,8 @@ import { CloseIcon } from '../shared/icons';
 
 interface Props {
     defaultValues?: Array<number>,
-    onChange: (newRhs: Array<number>) => void
+    onChange?: (newRhs: Array<number>) => void,
+    type: "number" // can add support for other types later
 }
 
 const MultiValueInputSelector = (props: Props) => {
@@ -12,7 +13,9 @@ const MultiValueInputSelector = (props: Props) => {
     const [currentValue, setCurrentValue] = useState<number>();
 
     useEffect(() => {
-       props.onChange(values);
+        if (props.onChange) {
+            props.onChange(values);
+        }
     }, [values]);
 
     const addValue = (valueToAdd: number) => {
@@ -60,21 +63,22 @@ const MultiValueInputSelector = (props: Props) => {
                     {values.map((value, index) => {
                         return <div key={index} className="multi-select-value">
                             <div className="multi-select-value-text">{value}</div>
-                            <div className="multi-select-value-closeBtn" data-value={value} onClick={() => { removeValue(value) }}>
+                            <div className="multi-select-value-closeBtn" data-testid="removeBtn" data-value={value} onClick={() => { removeValue(value) }}>
                                 <CloseIcon size="14" />
                             </div>
                         </div>
                     })}
                     <div className="multi-select-inputBox">
                         <div style={{display: "inline-block", width: "100%"}}>
-                            <input onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type="number" min="0" max="1000" value={currentValue || ""} />
+                            <label htmlFor="multi-value-input" style={{display: "none"}}>Enter values</label>
+                            <input id="multi-value-input" onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type="number" min="0" max="1000" value={currentValue || ""} />
                         </div>
                     </div>
                 </div>
                 <div className="multi-select-BtnContainer">
                     {values.length > 0 && (
-                        <div className="multi-select-btn">
-                            <CloseIcon size="20" onClick={removeAllValues} />
+                        <div className="multi-select-btn" data-testid="removeAllBtn" onClick={removeAllValues}>
+                            <CloseIcon size="20" />
                         </div>
                     )}
                     <div className="multi-select-btnSeparator"></div>

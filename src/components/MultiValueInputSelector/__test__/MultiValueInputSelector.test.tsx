@@ -1,5 +1,89 @@
-import React from 'react';
+import { render } from "@testing-library/react";
+import React from "react";
+import userEvent from '@testing-library/user-event'
+import MultiValueInputSelector from "../MultiValueInputSelector";
 
-test("it works", () => {
-    expect(true).toBe(true);
+test("it should have mandatory elements", () => {
+    const { getByLabelText, getByText } = render(<MultiValueInputSelector type="number" />);
+
+    expect(getByLabelText("Enter values")).not.toBeNull();
+    expect(getByText("+")).not.toBeNull();
+});
+
+test("add button click should add an item", () => {
+    const { container, getByLabelText, getByText } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+    expect(getByText("102")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
+
+    userEvent.type(input, "67");
+    userEvent.click(addBtn);
+    expect(getByText("67")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(2);
+});
+
+test("keypress Enter on input should add an item", () => {
+    const { container, getByLabelText, getByText } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    userEvent.type(input, "102");
+    userEvent.type(input, '{enter}');
+    expect(getByText("102")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
+
+    userEvent.type(input, "67");
+    userEvent.type(input, '{enter}');
+    expect(getByText("67")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(2);
+});
+
+test("input should be empty right after adding an element", () => {
+    const { getByLabelText } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    userEvent.type(input, "102");
+    userEvent.type(input, '{enter}');
+    expect(input).toHaveValue(null);
+});
+
+test("remove btn click should remove an item", () => {
+    const { getByLabelText, getByText, getAllByTestId, queryByText } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    userEvent.type(input, "102");
+    userEvent.type(input, '{enter}');
+    expect(getByText("102")).not.toBeNull();
+    userEvent.click(getAllByTestId("removeBtn")[0]);
+    expect(queryByText("102")).toBeNull();
+});
+
+test("remove-all button is shown only if there is at least one element added", () => {
+    const { getByLabelText, getByText, queryByTestId, getAllByTestId } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+
+    expect(queryByTestId("removeAllBtn")).not.toBeInTheDocument();
+
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+
+    expect(queryByTestId("removeAllBtn")).toBeInTheDocument();
+
+    userEvent.click(getAllByTestId("removeBtn")[0]);
+
+    expect(queryByTestId("removeAllBtn")).not.toBeInTheDocument();
+});
+
+test("remove-all btn should remove all items", () => {
+    const { container, getByLabelText, getByText, getByTestId } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+    userEvent.type(input, "67");
+    userEvent.click(addBtn);
+
+    userEvent.click(getByTestId("removeAllBtn"));
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(0);
 });
