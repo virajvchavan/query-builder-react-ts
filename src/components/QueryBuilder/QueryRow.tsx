@@ -59,16 +59,23 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
     }
 
     let RhsElement: ReactNode;
+    let rules = queryConfig.rhs.config?.split(";");
     switch (queryConfig.rhs.type) {
         case "text":
             RhsElement = <StyledInput type="text" onChange={onNormalRhsChange} />
             break;
         case "number":
-            RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} />
+            let options: JsonType = {};
+            rules?.forEach(rule => {
+                let [ruleName, ruleValue] = rule.split(":");
+                if (ruleName === "precision") {
+                    options.step = ruleValue;
+                }
+            });
+            RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} options={options} />
             break;
         case "multi-select-list":
             let optionsList: Array<OptionType> = [];
-            let rules = queryConfig.rhs.config?.split(";");
             rules?.forEach(rule => {
                 let [ruleName, ruleValue] = rule.split(":");
                 if (ruleName === "file") {

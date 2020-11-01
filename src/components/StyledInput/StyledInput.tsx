@@ -3,9 +3,10 @@ import "./StyledInput.css";
 
 interface Props {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void
-    type: "text" | "number"
+    type: "text" | "number",
+    options?:  { [key: string]: string }
 }
 
-export default function StyledInput({onChange, type}: Props) {
-    return <input className="styled-input" type={type} onChange={onChange} />
+export default function StyledInput({onChange, type, options}: Props) {
+    return <input className="styled-input" type={type} onChange={onChange} {...options} />
 }
