@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
-import RhsInput from './RhsInput';
+import RhsInput from './RhsInput/RhsInput';
 
 interface Props {
     lhs: string,
