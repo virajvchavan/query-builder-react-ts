@@ -92,7 +92,7 @@ export default function QueryBuilder({ queryConfig }: Props) {
                 })}
             </div>
         </div>
-        <div className="btn addBtn" onClick={addQueryRow}>+ Add</div>
-        <div className="btn applyBtn" onClick={onApply}>Apply</div>
+        <button className="btn addBtn" onClick={addQueryRow}>+ Add</button>
+        <button className="btn applyBtn" onClick={onApply}>Apply</button>
     </div>
 }
