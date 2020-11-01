@@ -3,6 +3,7 @@ import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
 import StyledInput from '../StyledInput/StyledInput';
 import { JsonObjectExpression } from 'typescript';
+import MultiValueInputSelector from '../MultiValueInputSelector/MultiValueInputSelector';
 
 interface Props {
     lhs: string,
@@ -36,6 +37,10 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
 
     const onSelectRhsChange = (newElement: ValueType<OptionType>) => {
         onCustomSelectRhsChange(index, newElement)
+    }
+
+    const onMultiSelectNumbersRhsChange = (newRhs: Array<number>) => {
+        onRhsChange(index, newRhs);
     }
 
     let lhsValue: OptionType = {
@@ -74,7 +79,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
             RhsElement = <Select options={optionsList} onChange={onSelectRhsChange} isMulti={true} />
             break;
         case "multi-select-numbers":
-            RhsElement = <input type="text" />
+            RhsElement = <MultiValueInputSelector onChange={onMultiSelectNumbersRhsChange} />
             break;
         default:
             break;
