@@ -56,7 +56,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
         value: operator
     }
 
-    return <div className="row">
+    return <div className="row" data-testid="queryRow">
         <div className="lhs">
             <Select
                 options={lhsOptions}
@@ -74,6 +74,6 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
         <div className="rhs">
             <RhsInput rhs={rhs} queryConfig={queryConfig} onNormalRhsChange={onNormalRhsChange} onSelectRhsChange={onSelectRhsChange} onMultiSelectNumbersRhsChange={onMultiSelectNumbersRhsChange} />
         </div>
-        <div className="btn removeBtn" onClick={onRemoveClick}>X</div>
+        <div className="btn removeBtn" data-testid="removeRowBtn" onClick={onRemoveClick}>X</div>
     </div>;
 }
