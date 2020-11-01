@@ -9,9 +9,9 @@ type rulesType = string[] | undefined;
 type rhsType = string | number[] | string[] | undefined;
 
 interface Props {
+    rhs: rhsType,
     queryConfig: Row,
     onNormalRhsChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
-    rhs: rhsType,
     onSelectRhsChange: (newElement: ValueType<OptionType>) => void,
     onMultiSelectNumbersRhsChange: (newRhs: Array<number>) => void
 }
@@ -20,34 +20,25 @@ export default function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChang
     let rules = queryConfig.rhs.config?.split(";");
     switch (queryConfig.rhs.type) {
         case "text":
-            return <StyledInput type="text" onChange={onNormalRhsChange} defaultValue={rhs?.toString() || ""} />;
+            let stringValue = rhs as string;
+            return <StyledInput type="text" onChange={onNormalRhsChange} defaultValue={stringValue} />;
         case "number":
-            return <NumberInput rules={rules} rhs={rhs?.toString()} onNormalRhsChange={onNormalRhsChange} />
+            let value = rhs as string;
+            return <NumberInput rules={rules} rhs={value} onNormalRhsChange={onNormalRhsChange} />
         case "multi-select-list":
-            return <MultiSelectList rhs={rhs} rules={rules} onSelectRhsChange={onSelectRhsChange} />
+            let stringArrValue = rhs as Array<string>;
+            return <MultiSelectList rhs={stringArrValue} rules={rules} onSelectRhsChange={onSelectRhsChange} />
         case "multi-select-numbers":
-            return <MultiSelectNumbers rhs={rhs} onMultiSelectNumbersRhsChange={onMultiSelectNumbersRhsChange}  />
+            let numbersArrayValue = rhs as Array<number>;
+            return <MultiValueInputSelector onChange={onMultiSelectNumbersRhsChange} defaultValues={numbersArrayValue} />;
         default:
             return null;
     }
 }
 
-interface MultiSelectNumbersProps {
-    rhs: rhsType,
-    onMultiSelectNumbersRhsChange: (newRhs: Array<number>) => void
-}
-
-function MultiSelectNumbers({rhs, onMultiSelectNumbersRhsChange}: MultiSelectNumbersProps) {
-    let numberValues: Array<number> = [];
-    if (Array.isArray(rhs) && typeof rhs[0] === "number") {
-        rhs?.forEach((item: number | string) => numberValues.push(Number(item)));
-    }
-    return <MultiValueInputSelector onChange={onMultiSelectNumbersRhsChange} defaultValues={numberValues} />;
-}
-
 interface MultiSelectListProps {
     rules: rulesType,
-    rhs: rhsType,
+    rhs: Array<string>,
     onSelectRhsChange: (newElement: ValueType<OptionType>) => void
 }
 
@@ -73,7 +64,7 @@ function MultiSelectList({rules, rhs, onSelectRhsChange}: MultiSelectListProps) 
 interface NumberInputProps {
     rules: rulesType,
     onNormalRhsChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
-    rhs: string | undefined
+    rhs: string
 }
 
 function NumberInput({rules, rhs, onNormalRhsChange}: NumberInputProps) {
