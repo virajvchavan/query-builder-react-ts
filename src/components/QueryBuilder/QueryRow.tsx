@@ -61,7 +61,7 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
     let rules = queryConfig.rhs.config?.split(";");
     switch (queryConfig.rhs.type) {
         case "text":
-            RhsElement = <StyledInput type="text" onChange={onNormalRhsChange} />
+            RhsElement = <StyledInput type="text" onChange={onNormalRhsChange} defaultValue={rhs?.toString() || ""} />
             break;
         case "number":
             let options: JsonType = {};
@@ -71,21 +71,31 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
                     options.step = ruleValue;
                 }
             });
-            RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} options={options} />
+            RhsElement = <StyledInput type="number" onChange={onNormalRhsChange} options={options} defaultValue={rhs?.toString() || ""} />
             break;
         case "multi-select-list":
+            let values: Array<OptionType> = [];
             let optionsList: Array<OptionType> = [];
             rules?.forEach(rule => {
                 let [ruleName, ruleValue] = rule.split(":");
                 if (ruleName === "file") {
                     let optionsJson: JsonType = require("../../queryConfig/" + ruleValue);
+                    if (Array.isArray(rhs) && typeof rhs[0] === "string") {
+                        rhs?.forEach((item: string | number) => {
+                            values.push({label: optionsJson[item], value: item.toString()});
+                        })
+                    }
                     optionsList = Object.keys(optionsJson).map(key => { return {value: key, label: optionsJson[key] }});
                 }
             });
-            RhsElement = <Select options={optionsList} onChange={onSelectRhsChange} isMulti={true} />
+            RhsElement = <Select options={optionsList} onChange={onSelectRhsChange} isMulti={true} defaultValue={values} />
             break;
         case "multi-select-numbers":
-            RhsElement = <MultiValueInputSelector onChange={onMultiSelectNumbersRhsChange} />
+            let numberValues: Array<number> = [];
+            if (Array.isArray(rhs) && typeof rhs[0] === "number") {
+                rhs?.forEach((item: number | string) => numberValues.push(Number(item)));
+            }
+            RhsElement = <MultiValueInputSelector onChange={onMultiSelectNumbersRhsChange} defaultValues={numberValues} />
             break;
         default:
             break;

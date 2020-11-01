@@ -3,12 +3,12 @@ import {ReactComponent as CloseBtnSvg} from './closeBtn.svg';
 import './MultiValueInputSelector.css';
 
 interface Props {
-    values?: Array<number>,
+    defaultValues?: Array<number>,
     onChange: (newRhs: Array<number>) => void
 }
 
 const MultiValueInputSelector = (props: Props) => {
-    const [values, setValues] = useState<Array<number>>(props.values || []);
+    const [values, setValues] = useState<Array<number>>(props.defaultValues || []);
     const [currentValue, setCurrentValue] = useState<number>();
 
     useEffect(() => {
