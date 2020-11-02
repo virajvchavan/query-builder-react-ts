@@ -23,7 +23,7 @@ function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChange, onNormalRhsC
     switch (queryConfig.rhs.type) {
         case "text":
             let stringValue = rhs as string;
-            return <StyledInput testId="rhsInput" type="text" onChange={onNormalRhsChange} defaultValue={stringValue} />;
+            return <StyledInput testId="rhsInput" type="text" onChange={onNormalRhsChange} value={stringValue} />;
         case "number":
             let value = rhs as string;
             return <NumberInput rules={rules} rhs={value} onNormalRhsChange={onNormalRhsChange} />

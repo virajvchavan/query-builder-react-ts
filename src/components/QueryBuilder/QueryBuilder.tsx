@@ -30,6 +30,7 @@ export type SavedQueryRow = {
 export default function QueryBuilder({ queryConfig }: Props) {
     const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
     const [savedQueries, setSavedQueries] = useState<string | null>(null);
+    const [queryName, setQueryName] = useState<string>("");
 
     useEffect(() => {
         setSavedQueries(localStorage.getItem("savedQueries"));
@@ -50,12 +51,21 @@ export default function QueryBuilder({ queryConfig }: Props) {
     }
 
     const addSavedQuery = () => {
-        setSavedQueries(savedQueries => {
-            return JSON.stringify(getSavedQueriesList().concat([{
-                name: "name",
-                rows: [...queryRows]
-            }]))
-        });
+        if (queryName && queryRows.length > 0) {
+            setSavedQueries(JSON.stringify(
+                getSavedQueriesList().concat([{
+                    name: queryName,
+                    rows: [...queryRows]
+                }])
+            ));
+            setQueryName("");
+        }
+    }
+
+    const onSavedQueryInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            addSavedQuery();
+        }
     }
 
     const removeSavedQuery = (index: number) => {
@@ -130,6 +140,10 @@ export default function QueryBuilder({ queryConfig }: Props) {
         console.log(queryRows);
     }
 
+    const onQueryNameChange = ((event: React.ChangeEvent<HTMLInputElement>) => {
+        setQueryName(event.target.value);
+    });
+
     return <div className="querySelector">
         <SavedQueries savedQueries={savedQueries} removeSavedQuery={removeSavedQuery} applySavedQuery={applySavedQuery} />
         <div className="allQueries">
@@ -153,9 +167,9 @@ export default function QueryBuilder({ queryConfig }: Props) {
         <button className="btn addBtn" onClick={addQueryRow}>+ Add</button>
         <button className="btn clearAll" onClick={clearAllRows}>Clear</button>
         <button className="btn applyBtn" onClick={onApply}>Apply</button>
-        <button className="btn saveBtn" onClick={addSavedQuery}>Save for later</button>
+        <button className={"btn saveBtn" + (queryName ? "" : " disabled")} onClick={addSavedQuery}>Save for later</button>
         <div className="queryNameInputContainer">
-            <StyledInput type="text" options={{placeholder: "Name your query"}} />
+            <StyledInput onKeyPress={onSavedQueryInputKeyPress} type="text" options={{placeholder: "Name your query"}} onChange={onQueryNameChange} value={queryName} />
         </div>
     </div>
 }

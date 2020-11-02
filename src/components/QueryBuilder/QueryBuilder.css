@@ -47,6 +47,10 @@
     border-radius: 5px;
 }
 
+.saveBtn.disabled {
+    color: lightgrey;
+}
+
 .applyBtn {
     background-color: rgb(14, 123, 42);
     margin-left: 10px;
