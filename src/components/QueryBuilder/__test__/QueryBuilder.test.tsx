@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { cleanup, render, waitFor } from '@testing-library/react';
 import React from "react";
 import userEvent from '@testing-library/user-event'
 import QueryBuilder from "../QueryBuilder";
@@ -30,6 +30,20 @@ test("remove-row-button click should remove a row", () => {
     expect(queryAllByTestId("queryRow").length).toBe(2);
 });
 
+test("it should remove all rows when Clear All button is clicked", () => {
+    const { getByText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getByText("+ Add"));
+    userEvent.click(getByText("+ Add"));
+    userEvent.click(getByText("Clear"));
+    expect(queryAllByTestId("queryRow").length).toBe(0);
+});
+
+test("it should show notice when no rows are added", () => {
+    const { getByText, getAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getAllByTestId("removeRowBtn")[0]);
+    expect(getByText("Click on `+ Add` to add a query.")).not.toBeNull();
+});
+
 test("it should render correct LHS options", () => {
     const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
     userEvent.click(getByText(queryConfig[Object.keys(queryConfig)[0]].label));
@@ -40,7 +54,7 @@ test("it should render correct LHS options", () => {
 });
 
 test("correct operator list is rendered based on LHS", () => {
-    const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
+    const { queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.operators[0].text)[0]);
     rowConfig1.operators.forEach(operator => {
@@ -94,4 +108,55 @@ test("correct RHS element is rendered when RHS type in the provided config is mu
     userEvent.click(queryAllByText("Country")[0]);
 
     expect(getByText("Select...")).not.toBeNull();
+});
+
+test("it should save a query with a name", () => {
+    window.localStorage.clear();
+    const { getByTestId, queryAllByText, getByText, getByPlaceholderText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Campaign")[0]);
+
+    userEvent.type(getByTestId("rhsInput"), "bangalore");
+
+    let queryNameInput = getByPlaceholderText("Name your query");
+    userEvent.type(queryNameInput, "query1");
+    userEvent.click(getByText("Save for later"));
+
+    // value should clear after saving the query
+    expect(queryNameInput).toHaveValue("");
+
+    // check if the newly created query is in the savedQueries dropdown
+    userEvent.click(getByText("Select to Apply"));
+    expect(getByText("query1")).not.toBeNull();
+    cleanup();
+});
+
+test("it should apply a saved query correctly", () => {
+    window.localStorage.clear();
+    const { getByTestId, queryAllByText, getByText, getByPlaceholderText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Campaign")[0]);
+
+    userEvent.type(getByTestId("rhsInput"), "bangalore");
+
+    let queryNameInput = getByPlaceholderText("Name your query");
+    userEvent.type(queryNameInput, "query1");
+    userEvent.click(getByText("Save for later"));
+
+    // value should clear after saving the query
+    expect(queryNameInput).toHaveValue("");
+
+    // now remove all rows
+    userEvent.click(getByText("Clear"));
+
+    // select the newly created query from savedQueries dropdown
+    userEvent.click(getByText("Select to Apply"));
+    expect(getByText("query1")).not.toBeNull();
+    userEvent.click(getByText("query1"));
+
+    // now the rows should be added from the saved query
+    expect(queryAllByTestId("queryRow").length).toBe(1);
+    expect(getByTestId("rhsInput")).toHaveValue("bangalore");
 });
