@@ -87,3 +87,19 @@ test("remove-all btn should remove all items", () => {
     userEvent.click(getByTestId("removeAllBtn"));
     expect(container.querySelectorAll(".multi-select-value").length).toBe(0);
 });
+
+
+test("it should call onChange method with correct params", () => {
+    const onChange = jest.fn();
+    const { getByLabelText, getByText } = render(<MultiValueInputSelector type="number" onChange={onChange} />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+    expect(onChange).toHaveBeenLastCalledWith([102]);
+
+    userEvent.type(input, "67");
+    userEvent.click(addBtn);
+    expect(onChange).toHaveBeenLastCalledWith([102, 67]);
+});

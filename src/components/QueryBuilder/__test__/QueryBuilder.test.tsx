@@ -46,7 +46,7 @@ test("it should show notice when no rows are added", () => {
 
 test("it should render correct LHS options", () => {
     const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText(queryConfig[Object.keys(queryConfig)[0]].label));
+    userEvent.click(getByText(queryConfig[Object.keys(queryConfig)[0]].label)); // this opens up the dropdown
 
     Object.keys(queryConfig).forEach(key => {
         expect(queryAllByText(queryConfig[key].label)[0]).toBeInTheDocument();
@@ -56,7 +56,7 @@ test("it should render correct LHS options", () => {
 test("correct operator list is rendered based on LHS", () => {
     const { queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
-    userEvent.click(queryAllByText(rowConfig1.operators[0].text)[0]);
+    userEvent.click(queryAllByText(rowConfig1.operators[0].text)[0]); // this opens up the dropdown
     rowConfig1.operators.forEach(operator => {
         expect(queryAllByText(operator.text)[0]).toBeInTheDocument();
     });
@@ -164,7 +164,7 @@ test("it should apply a saved query correctly", () => {
 test("it should call console.log with correct json when apply btn is clicked", () => {
     console.log = jest.fn();
 
-    const { getByTestId, queryAllByText, getByText, getByPlaceholderText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    const { getByTestId, queryAllByText, getByText } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Campaign")[0]);
