@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
 import RhsInput from './RhsInput/RhsInput';
@@ -27,6 +27,22 @@ export type JsonType = {
 }
 
 export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange, onCustomSelectRhsChange }: Props) {
+    const [operatorOptions, setOperatorOptions] = useState<Array<{ value: string, label: string }>>();
+    const [operatorValue, setOperatorValue] = useState<OptionType>();
+
+    useEffect(() => {
+        let operatorOptions: Array<{ value: string, label: string }> = [];
+        queryConfig.operators.forEach((operator, index) => {
+            operatorOptions.push({ value: operator.value, label: operator.text });
+        });
+    
+        setOperatorOptions(operatorOptions);
+        setOperatorValue({
+            label: operatorOptions?.find(item => item.value === operator)?.label || operator,
+            value: operator
+        });
+    }, [operator, queryConfig]);
+
     const onRemoveClick = () => removeRow(index);
 
     const onNormalRhsChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,16 +61,6 @@ export default function QueryRow({ lhs, rhs, operator, index, queryConfig, remov
         label: queryConfig.label,
         value: lhs
     };
-
-    let operatorOptions: Array<{ value: string, label: string }> = [];
-    queryConfig.operators.forEach((operator, index) => {
-        operatorOptions.push({ value: operator.value, label: operator.text });
-    });
-
-    let operatorValue: OptionType = {
-        label: operatorOptions.find(item => item.value === operator)?.label || operator,
-        value: operator
-    }
 
     return <div className="row" data-testid="queryRow">
         <div className="lhs">

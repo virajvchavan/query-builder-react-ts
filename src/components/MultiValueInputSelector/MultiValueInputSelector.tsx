@@ -3,14 +3,20 @@ import './MultiValueInputSelector.css';
 import { CloseIcon } from '../shared/icons';
 
 interface Props {
-    defaultValues?: Array<number>,
+    values?: Array<number>,
     onChange?: (newRhs: Array<number>) => void,
     type: "number" // can add support for other types later
 }
 
 const MultiValueInputSelector = (props: Props) => {
-    const [values, setValues] = useState<Array<number>>(props.defaultValues || []);
+    const [values, setValues] = useState<Array<number>>(props.values || []);
     const [currentValue, setCurrentValue] = useState<number>();
+
+    useEffect(() => {
+        if (props.values) {
+            setValues(props.values);
+        }
+    }, [props.values]);
 
     useEffect(() => {
         if (props.onChange) {

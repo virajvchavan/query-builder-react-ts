@@ -23,7 +23,7 @@ function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChange, onNormalRhsC
     switch (queryConfig.rhs.type) {
         case "text":
             let stringValue = rhs as string;
-            return <StyledInput type="text" onChange={onNormalRhsChange} defaultValue={stringValue} />;
+            return <StyledInput testId="rhsInput" type="text" onChange={onNormalRhsChange} defaultValue={stringValue} />;
         case "number":
             let value = rhs as string;
             return <NumberInput rules={rules} rhs={value} onNormalRhsChange={onNormalRhsChange} />
@@ -32,7 +32,7 @@ function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChange, onNormalRhsC
             return <MultiSelectList rhs={stringArrValue} rules={rules} onSelectRhsChange={onSelectRhsChange} />
         case "multi-select-numbers-in-a-range":
             let numbersArrayValue = rhs as Array<number>;
-            return <MultiValueInputSelector type="number" onChange={onMultiSelectNumbersRhsChange} defaultValues={numbersArrayValue} />;
+            return <MultiValueInputSelector type="number" onChange={onMultiSelectNumbersRhsChange} values={numbersArrayValue} />;
         default:
             return null;
     }

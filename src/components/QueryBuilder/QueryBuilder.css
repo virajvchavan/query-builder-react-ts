@@ -21,7 +21,7 @@
     margin: 0 6px;
 }
 
-.applyBtn {
+.applyBtn, .saveBtn {
     float: right;
 }
 
@@ -38,13 +38,27 @@
 }
 
 .addBtn,
-.applyBtn {
+.applyBtn,
+.saveBtn ,
+.clearAll {
     background-color: teal;
     color: white;
     font-weight: bold;
     border-radius: 5px;
 }
 
+.applyBtn {
+    background-color: rgb(14, 123, 42);
+    margin-left: 10px;
+}
+
+.saveBtn {
+    margin-left: 3px;
+}
+.clearAll {
+    background-color: #cb0000;
+    margin-left: 10px;
+}
 .lhs {
     width: 150px;
 }
@@ -55,4 +69,8 @@
 
 .rhs {
     width: 251px;
+}
+.queryNameInputContainer {
+    display: inline-flex;
+    float: right;
 }

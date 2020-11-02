@@ -1,0 +1,12 @@
+.savedQueries {
+    display: flex;
+    margin-bottom: 20px;
+}
+.savedQueries-title {
+    font-size: 13px;
+    line-height: 35px;
+}
+.savedQueries-inputContainer {
+    width: 250px;
+    margin-left: 10px;
+}

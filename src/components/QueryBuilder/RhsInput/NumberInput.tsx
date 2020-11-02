@@ -16,5 +16,5 @@ export function NumberInput({ rules, rhs, onNormalRhsChange }: NumberInputProps)
             options.step = ruleValue;
         }
     });
-    return <StyledInput type="number" onChange={onNormalRhsChange} options={options} defaultValue={rhs} />;
+    return <StyledInput testId="rhsInput" type="number" onChange={onNormalRhsChange} options={options} defaultValue={rhs} />;
 }

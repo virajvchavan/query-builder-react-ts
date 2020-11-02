@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ConfigType } from '../../queryConfig/queryConfig';
+import StyledInput from '../StyledInput/StyledInput';
 import './QueryBuilder.css';
 import QueryRow from './QueryRow';
+import SavedQueries from './SavedQueries/SavedQueries';
 
 type RhsType = string | Array<number> | Array<string>;
 
-interface QueryRowType {
+export interface QueryRowType {
     lhs: string,
     operator: string,
     rhs?: RhsType
@@ -20,12 +22,53 @@ type OptionType = {
     label: string;
 };
 
+export type SavedQueryRow = {
+    name: string;
+    rows: Array<QueryRowType>
+}
+
 export default function QueryBuilder({ queryConfig }: Props) {
     const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
+    const [savedQueries, setSavedQueries] = useState<Array<SavedQueryRow>>([]);
 
-    let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
-        return { value: lhs, label: queryConfig[lhs].label }
-    });
+    useEffect(() => {
+        let queriesFromLS = localStorage.getItem("savedQueries");
+        try {
+            if (queriesFromLS) {
+                let items: Array<SavedQueryRow> = JSON.parse(queriesFromLS);
+                setSavedQueries(items);
+            }
+        } catch (error) {
+            console.log("error parsing value from localStorage");
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("savedQueries", JSON.stringify([...savedQueries]));
+    }, [savedQueries]);
+
+    const addSavedQuery = () => {
+        setSavedQueries(savedQueries.concat([{
+            name: "name",
+            rows: [...queryRows]
+        }]));
+    }
+
+    const removeSavedQuery = (index: number) => {
+        setSavedQueries(queries => {
+            let rows = [...queries];
+            rows.splice(index, 1);
+            return rows;
+        });
+    }
+
+    const applySavedQuery = (index: number) => {
+        let newRows = [...savedQueries[index].rows];
+        if (newRows) {
+            console.log(newRows);
+            setQueryRows(newRows);
+        }
+    }
 
     const onLhsChange = (index: number, lhs: OptionType) => {
         let newRows = [...queryRows];
@@ -56,6 +99,10 @@ export default function QueryBuilder({ queryConfig }: Props) {
         setQueryRows(newRows);
     }
 
+    let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
+        return { value: lhs, label: queryConfig[lhs].label }
+    });
+
     const addQueryRow = () => {
         let operator = queryConfig[lhsOptions[0].value].operators[0];
         setQueryRows(queryRows.concat([{
@@ -72,11 +119,16 @@ export default function QueryBuilder({ queryConfig }: Props) {
         });
     }
 
+    const clearAllRows = () => {
+        setQueryRows([]);
+    }
+
     const onApply = () => {
         console.log(queryRows);
     }
 
     return <div className="querySelector">
+        <SavedQueries savedQueries={savedQueries} removeSavedQuery={removeSavedQuery} applySavedQuery={applySavedQuery} />
         <div className="allQueries">
             <div className="where">where</div>
             <div className="queryRows">
@@ -96,6 +148,11 @@ export default function QueryBuilder({ queryConfig }: Props) {
             </div>
         </div>
         <button className="btn addBtn" onClick={addQueryRow}>+ Add</button>
+        <button className="btn clearAll" onClick={clearAllRows}>Clear</button>
         <button className="btn applyBtn" onClick={onApply}>Apply</button>
+        <button className="btn saveBtn" onClick={addSavedQuery}>Save for later</button>
+        <div className="queryNameInputContainer">
+            <StyledInput type="text" options={{placeholder: "Name your query"}} />
+        </div>
     </div>
 }
