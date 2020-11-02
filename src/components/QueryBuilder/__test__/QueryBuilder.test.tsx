@@ -1,4 +1,4 @@
-import { cleanup, render, waitFor } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import React from "react";
 import userEvent from '@testing-library/user-event'
 import QueryBuilder from "../QueryBuilder";
@@ -112,7 +112,7 @@ test("correct RHS element is rendered when RHS type in the provided config is mu
 
 test("it should save a query with a name", () => {
     window.localStorage.clear();
-    const { getByTestId, queryAllByText, getByText, getByPlaceholderText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    const { getByTestId, queryAllByText, getByText, getByPlaceholderText } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Campaign")[0]);
@@ -159,4 +159,24 @@ test("it should apply a saved query correctly", () => {
     // now the rows should be added from the saved query
     expect(queryAllByTestId("queryRow").length).toBe(1);
     expect(getByTestId("rhsInput")).toHaveValue("bangalore");
+});
+
+test("it should call console.log with correct json when apply btn is clicked", () => {
+    console.log = jest.fn();
+
+    const { getByTestId, queryAllByText, getByText, getByPlaceholderText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Campaign")[0]);
+
+    userEvent.type(getByTestId("rhsInput"), "bangalore");
+
+    userEvent.click(getByText("Apply"));
+
+    let rowConfig = queryConfig["campaign"];
+    expect(console.log).toHaveBeenCalledWith([{
+        lhs: "campaign",
+        operator: rowConfig.operators[0].value,
+        rhs: "bangalore"
+    }]);
 });
