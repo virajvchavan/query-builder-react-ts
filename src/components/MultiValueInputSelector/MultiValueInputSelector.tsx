@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './MultiValueInputSelector.css';
 import { CloseIcon } from '../shared/icons';
+import { rulesType } from '../QueryBuilder/RhsInput/RhsInput';
 
 interface Props {
     values?: Array<number>,
     onChange?: (newRhs: Array<number>) => void,
-    type: "number" // can add support for other types later
+    type: "number", // can add support for other types later
+    rules?: rulesType
 }
 
 const MultiValueInputSelector = (props: Props) => {
@@ -63,6 +65,14 @@ const MultiValueInputSelector = (props: Props) => {
         }
     }
 
+    let min = 0, max = 1000;
+    props.rules?.forEach(rule => {
+        let [ruleName, ruleValue] = rule.split(":");
+        if (ruleName === "range") {
+            [min, max] = ruleValue.split("-").map(item => parseInt(item));
+        }
+    });
+
     return (
         <div className="multi-input-container">
             <div className="multi-input-control">
@@ -78,7 +88,7 @@ const MultiValueInputSelector = (props: Props) => {
                     <div className="multi-select-inputBox">
                         <div style={{display: "inline-block", width: "100%"}}>
                             <label htmlFor="multi-value-input" style={{display: "none"}}>Enter values</label>
-                            <input id="multi-value-input" onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type={props.type} min="0" max="1000" value={currentValue || ""} />
+                            <input id="multi-value-input" onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder={`Enter values (${min}-${max})`} type={props.type} min={min} max={max} value={currentValue || ""} />
                         </div>
                     </div>
                 </div>
