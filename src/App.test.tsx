@@ -1,8 +1,8 @@
+import { render } from "@testing-library/react";
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
 
-test("it works", () => {
-  const root = document.createElement("div");
-  ReactDOM.render(<App />, root);
+test("renders without errors", () => {
+  const { getByText } = render(<App />);
+  expect(getByText("where")).not.toBeNull();
 });

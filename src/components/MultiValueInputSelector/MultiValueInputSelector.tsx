@@ -71,7 +71,7 @@ const MultiValueInputSelector = (props: Props) => {
                     <div className="multi-select-inputBox">
                         <div style={{display: "inline-block", width: "100%"}}>
                             <label htmlFor="multi-value-input" style={{display: "none"}}>Enter values</label>
-                            <input id="multi-value-input" onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type="number" min="0" max="1000" value={currentValue || ""} />
+                            <input id="multi-value-input" onChange={onInputChange} onKeyPress={onInputKeyPress} placeholder="Enter values (1-1000)" type={props.type} min="0" max="1000" value={currentValue || ""} />
                         </div>
                     </div>
                 </div>

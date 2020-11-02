@@ -9,5 +9,5 @@ interface Props {
 }
 
 export default function StyledInput({onChange, type, options, defaultValue}: Props) {
-    return <input className="styled-input" type={type} onChange={onChange} {...options} value={defaultValue} />
+    return <input data-testid="rhsInput" className="styled-input" type={type} onChange={onChange} {...options} value={defaultValue} />
 }

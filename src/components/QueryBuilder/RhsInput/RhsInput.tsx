@@ -30,7 +30,7 @@ function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChange, onNormalRhsC
         case "multi-select-list":
             let stringArrValue = rhs as Array<string>;
             return <MultiSelectList rhs={stringArrValue} rules={rules} onSelectRhsChange={onSelectRhsChange} />
-        case "multi-select-numbers":
+        case "multi-select-numbers-in-a-range":
             let numbersArrayValue = rhs as Array<number>;
             return <MultiValueInputSelector type="number" onChange={onMultiSelectNumbersRhsChange} defaultValues={numbersArrayValue} />;
         default:

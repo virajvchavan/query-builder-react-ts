@@ -23,7 +23,7 @@ const queryConfig: ConfigType = {
             { value: "contains", text: "contains" },
             { value: "not-contains", text: "not contains" }
         ],
-        rhs: { type: "multi-select-numbers", config: "range:1-1000" }
+        rhs: { type: "multi-select-numbers-in-a-range", config: "range:1-1000" }
     },
     country: {
         label: "Country",

@@ -58,3 +58,46 @@ test("correct operator list is rendered based on LHS", () => {
         expect(queryAllByText(operator.text)[0]).toBeInTheDocument();
     });
 });
+
+test("correct RHS element is rendered when RHS type in the provided config is text", () => {
+    const { getByText, queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getByText("+ Add"));
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Campaign")[0]);
+
+    let rhsElement = getByTestId("rhsInput");
+    expect(rhsElement.getAttribute("type")).toBe("text");
+});
+
+test("correct RHS element is rendered when RHS type in the provided config is number", () => {
+    const { getByText, queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getByText("+ Add"));
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Revenue")[0]);
+
+    let rhsElement = getByTestId("rhsInput");
+    expect(rhsElement.getAttribute("type")).toBe("number");
+});
+
+test("correct RHS element is rendered when RHS type in the provided config is multi-select-numbers-in-a-range", () => {
+    const { getByText, queryAllByText, getByLabelText } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getByText("+ Add"));
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Account")[0]);
+
+    let rhsElement = getByLabelText("Enter values");
+    expect(rhsElement.getAttribute("type")).toBe("number");
+});
+
+test("correct RHS element is rendered when RHS type in the provided config is multi-select-list", () => {
+    const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
+    userEvent.click(getByText("+ Add"));
+    let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
+    userEvent.click(queryAllByText(rowConfig1.label)[0]);
+    userEvent.click(queryAllByText("Country")[0]);
+
+    expect(getByText("Select...")).not.toBeNull();
+});
