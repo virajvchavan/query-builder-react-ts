@@ -26,7 +26,7 @@ function RhsInput({rhs, queryConfig, onMultiSelectNumbersRhsChange, onNormalRhsC
             return <StyledInput testId="rhsInput" type="text" onChange={onNormalRhsChange} value={stringValue} />;
         case "number":
             let value = rhs as string;
-            return <NumberInput rules={rules} rhs={value} onNormalRhsChange={onNormalRhsChange} />
+            return <NumberInput rules={rules} value={value} options={{placeholder: "Type a number"}} onNormalRhsChange={onNormalRhsChange} />
         case "multi-select-list":
             let stringArrValue = rhs as Array<string>;
             return <MultiSelectList rhs={stringArrValue} rules={rules} onSelectRhsChange={onSelectRhsChange} />
