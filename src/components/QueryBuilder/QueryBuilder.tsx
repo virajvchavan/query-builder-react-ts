@@ -148,11 +148,13 @@ export default function QueryBuilder({ queryConfig }: Props) {
         setQueryName(event.target.value);
     });
 
+    let NoQueriesYetElement = queryRows.length === 0 ? <div className="noQueriesNotice">Click on `+ Add` to add a query.</div> : null;
     return <div className="querySelector">
         <SavedQueries savedQueries={savedQueries} removeSavedQuery={removeSavedQuery} applySavedQuery={applySavedQuery} />
         <div className="allQueries">
             <div className="where">where</div>
             <div className="queryRows">
+                {NoQueriesYetElement}
                 {queryRows.map((row, index) => {
                     return <QueryRow
                         queryConfig={queryConfig[row.lhs]}

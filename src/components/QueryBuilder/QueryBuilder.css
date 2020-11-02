@@ -90,3 +90,7 @@
     display: inline-flex;
     float: right;
 }
+.noQueriesNotice {
+    margin-top: 9px;
+    color: blue;
+}
