@@ -15,11 +15,11 @@ test("it should have mandatory elements", () => {
 
 test("add-button click should add a new row", () => {
     const { getByText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
-    expect(queryAllByTestId("queryRow").length).toBe(0);
-    userEvent.click(getByText("+ Add"));
     expect(queryAllByTestId("queryRow").length).toBe(1);
     userEvent.click(getByText("+ Add"));
     expect(queryAllByTestId("queryRow").length).toBe(2);
+    userEvent.click(getByText("+ Add"));
+    expect(queryAllByTestId("queryRow").length).toBe(3);
 });
 
 test("remove-row-button click should remove a row", () => {
@@ -27,12 +27,11 @@ test("remove-row-button click should remove a row", () => {
     userEvent.click(getByText("+ Add"));
     userEvent.click(getByText("+ Add"));
     userEvent.click(getAllByTestId("removeRowBtn")[0]);
-    expect(queryAllByTestId("queryRow").length).toBe(1);
+    expect(queryAllByTestId("queryRow").length).toBe(2);
 });
 
 test("it should render correct LHS options", () => {
     const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
     userEvent.click(getByText(queryConfig[Object.keys(queryConfig)[0]].label));
 
     Object.keys(queryConfig).forEach(key => {
@@ -42,7 +41,6 @@ test("it should render correct LHS options", () => {
 
 test("correct operator list is rendered based on LHS", () => {
     const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.operators[0].text)[0]);
     rowConfig1.operators.forEach(operator => {
@@ -60,8 +58,7 @@ test("correct operator list is rendered based on LHS", () => {
 });
 
 test("correct RHS element is rendered when RHS type in the provided config is text", () => {
-    const { getByText, queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
+    const { queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Campaign")[0]);
@@ -71,8 +68,7 @@ test("correct RHS element is rendered when RHS type in the provided config is te
 });
 
 test("correct RHS element is rendered when RHS type in the provided config is number", () => {
-    const { getByText, queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
+    const { queryAllByText, getByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Revenue")[0]);
@@ -82,8 +78,7 @@ test("correct RHS element is rendered when RHS type in the provided config is nu
 });
 
 test("correct RHS element is rendered when RHS type in the provided config is multi-select-numbers-in-a-range", () => {
-    const { getByText, queryAllByText, getByLabelText } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
+    const { queryAllByText, getByLabelText } = render(<QueryBuilder queryConfig={queryConfig} />);
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Account")[0]);
@@ -94,7 +89,6 @@ test("correct RHS element is rendered when RHS type in the provided config is mu
 
 test("correct RHS element is rendered when RHS type in the provided config is multi-select-list", () => {
     const { getByText, queryAllByText } = render(<QueryBuilder queryConfig={queryConfig} />);
-    userEvent.click(getByText("+ Add"));
     let rowConfig1 = queryConfig[Object.keys(queryConfig)[0]];
     userEvent.click(queryAllByText(rowConfig1.label)[0]);
     userEvent.click(queryAllByText("Country")[0]);
