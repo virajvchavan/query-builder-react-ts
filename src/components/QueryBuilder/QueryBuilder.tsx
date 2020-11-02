@@ -28,7 +28,19 @@ export type SavedQueryRow = {
 }
 
 export default function QueryBuilder({ queryConfig }: Props) {
-    const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
+    let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
+        return { value: lhs, label: queryConfig[lhs].label }
+    });
+
+    const getNewQueryRow: () => QueryRowType = () => {
+        let operator = queryConfig[lhsOptions[0].value].operators[0];
+        return {
+            lhs: lhsOptions[0].value,
+            operator: operator.value
+        }
+    }
+
+    const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([getNewQueryRow()]);
     const [savedQueries, setSavedQueries] = useState<string | null>(null);
     const [queryName, setQueryName] = useState<string>("");
 
@@ -112,16 +124,8 @@ export default function QueryBuilder({ queryConfig }: Props) {
         setQueryRows(newRows);
     }
 
-    let lhsOptions: Array<OptionType> = Object.keys(queryConfig).map(lhs => {
-        return { value: lhs, label: queryConfig[lhs].label }
-    });
-
     const addQueryRow = () => {
-        let operator = queryConfig[lhsOptions[0].value].operators[0];
-        setQueryRows(queryRows.concat([{
-            lhs: lhsOptions[0].value,
-            operator: operator.value
-        }]));
+        setQueryRows(queryRows.concat([getNewQueryRow()]));
     }
 
     const removeRow = (index: number) => {
