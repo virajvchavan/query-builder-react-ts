@@ -4,8 +4,6 @@ import userEvent from '@testing-library/user-event'
 import QueryBuilder from "../QueryBuilder";
 import queryConfig from '../../../queryConfig/queryConfig';
 
-// - "rhs should change based on lhs"
-
 test("it should have mandatory elements", () => {
     const { getByText } = render(<QueryBuilder queryConfig={queryConfig} />);
 

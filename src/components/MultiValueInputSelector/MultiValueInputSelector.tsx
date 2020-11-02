@@ -16,6 +16,7 @@ const MultiValueInputSelector = (props: Props) => {
         if (props.onChange) {
             props.onChange(values);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values]);
 
     const addValue = (valueToAdd: number) => {

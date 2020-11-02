@@ -43,7 +43,7 @@ export default function QueryBuilder({ queryConfig }: Props) {
 
     const onCustomSelectRhsChange = (index: number, rhs: Array<OptionType>) => {
         let newRows = [...queryRows];
-        newRows[index].rhs = rhs.map(item => item.value);
+        newRows[index].rhs = rhs?.map(item => item.value) || [];
         setQueryRows(newRows);
     }
 
