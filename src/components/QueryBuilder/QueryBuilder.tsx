@@ -29,43 +29,46 @@ export type SavedQueryRow = {
 
 export default function QueryBuilder({ queryConfig }: Props) {
     const [queryRows, setQueryRows] = useState<Array<QueryRowType>>([]);
-    const [savedQueries, setSavedQueries] = useState<Array<SavedQueryRow>>([]);
+    const [savedQueries, setSavedQueries] = useState<string | null>(null);
 
     useEffect(() => {
-        let queriesFromLS = localStorage.getItem("savedQueries");
-        try {
-            if (queriesFromLS) {
-                let items: Array<SavedQueryRow> = JSON.parse(queriesFromLS);
-                setSavedQueries(items);
-            }
-        } catch (error) {
-            console.log("error parsing value from localStorage");
-        }
+        setSavedQueries(localStorage.getItem("savedQueries"));
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("savedQueries", JSON.stringify([...savedQueries]));
+        if (savedQueries) {
+            localStorage.setItem("savedQueries", savedQueries);
+        }
     }, [savedQueries]);
 
+    function getSavedQueriesList() {
+        let savedQueriesList: Array<SavedQueryRow> = [];
+        if (savedQueries) {
+            savedQueriesList = JSON.parse(savedQueries);
+        }
+        return savedQueriesList;
+    }
+
     const addSavedQuery = () => {
-        setSavedQueries(savedQueries.concat([{
-            name: "name",
-            rows: [...queryRows]
-        }]));
+        setSavedQueries(savedQueries => {
+            return JSON.stringify(getSavedQueriesList().concat([{
+                name: "name",
+                rows: [...queryRows]
+            }]))
+        });
     }
 
     const removeSavedQuery = (index: number) => {
-        setSavedQueries(queries => {
-            let rows = [...queries];
-            rows.splice(index, 1);
-            return rows;
+        setSavedQueries(savedQueries => {
+            let savedQueriesList = getSavedQueriesList();
+            savedQueriesList.splice(index, 1);
+            return JSON.stringify(savedQueriesList);
         });
     }
 
     const applySavedQuery = (index: number) => {
-        let newRows = [...savedQueries[index].rows];
+        let newRows = getSavedQueriesList()[index].rows;
         if (newRows) {
-            console.log(newRows);
             setQueryRows(newRows);
         }
     }

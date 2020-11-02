@@ -5,13 +5,18 @@ import { OptionType } from '../QueryRow';
 import './SavedQueries.css';
 
 interface Props {
-    savedQueries: Array<SavedQueryRow>,
+    savedQueries: string | null,
     removeSavedQuery: (index: number) => void,
     applySavedQuery: (index: number) => void
 }
 
 export default function SavedQueries({savedQueries, applySavedQuery}: Props) {
-    let options: Array<OptionType> = savedQueries.map((query, index) => {
+
+    let savedQueriesList: Array<SavedQueryRow> = [];
+    if (savedQueries) {
+        savedQueriesList = JSON.parse(savedQueries);
+    }
+    let options: Array<OptionType> = savedQueriesList.map((query, index) => {
         return { label: query.name, value: `${index}` }
     });
 
