@@ -29,9 +29,12 @@ export default function QueryBuilder({ queryConfig }: Props) {
 
     const onLhsChange = (index: number, lhs: OptionType) => {
         let newRows = [...queryRows];
-        newRows[index].lhs = lhs.value;
         let operator = queryConfig[lhs.value].operators[0];
-        newRows[index].operator = operator.value;
+        newRows[index] = {
+            lhs: lhs.value,
+            operator: operator.value,
+            rhs: ""
+        }
         setQueryRows(newRows);
     }
 

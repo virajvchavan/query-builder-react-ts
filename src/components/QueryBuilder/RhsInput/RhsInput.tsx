@@ -4,7 +4,7 @@ import { ValueType } from 'react-select';
 import StyledInput from '../../StyledInput/StyledInput';
 import MultiValueInputSelector from '../../MultiValueInputSelector/MultiValueInputSelector';
 import { OptionType } from '../QueryRow';
-import { MultiSelectList } from './MultiSelectList';
+import MultiSelectList from './MultiSelectList';
 import { NumberInput } from './NumberInput';
 
 export type rulesType = string[] | undefined;

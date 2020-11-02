@@ -9,7 +9,7 @@ interface MultiSelectListProps {
     onSelectRhsChange: (newElement: ValueType<OptionType>) => void;
 }
 
-export function MultiSelectList({ rules, rhs, onSelectRhsChange }: MultiSelectListProps) {
+export default function MultiSelectList({ rules, rhs, onSelectRhsChange }: MultiSelectListProps) {
     let values: Array<OptionType> = [];
     let optionsList: Array<OptionType> = [];
     rules?.forEach(rule => {
