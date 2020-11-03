@@ -94,3 +94,6 @@
     margin-top: 9px;
     color: blue;
 }
+.rhs .border-red {
+    border-color: red;
+}

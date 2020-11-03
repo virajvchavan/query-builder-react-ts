@@ -13,6 +13,15 @@ interface Props {
 const MultiValueInputSelector = (props: Props) => {
     const [values, setValues] = useState<Array<number>>(props.values || []);
     const [currentValue, setCurrentValue] = useState<number>();
+    const [showError, setShowError] = useState<Boolean>(false);
+
+    let min = 0, max = 1000;
+    props.rules?.forEach(rule => {
+        let [ruleName, ruleValue] = rule.split(":");
+        if (props.type === "number" && ruleName === "range") {
+            [min, max] = ruleValue.split("-").map(item => parseInt(item));
+        }
+    });
 
     useEffect(() => {
         if (props.values) {
@@ -27,10 +36,27 @@ const MultiValueInputSelector = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values]);
 
+    const isInputValid: () => Boolean = () => {
+        if (props.type === "number") {
+            let numberValue = parseInt(`${currentValue}`);
+            if ((min && numberValue < min) || (max && numberValue > max)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     const addValue = (valueToAdd: number) => {
-        setValues(values => {
-            return [...values, valueToAdd];
-        });
+        if (isInputValid()) {
+            setValues(values => {
+                return [...values, valueToAdd];
+            });
+            if (currentValue !== null) {
+                setCurrentValue(undefined);
+            }
+        } else {
+            setShowError(true);
+        }
     }
 
     const removeValue = (valueToRemove: number) => {
@@ -48,15 +74,13 @@ const MultiValueInputSelector = (props: Props) => {
         if (currentValue) {
             addValue(currentValue);
         }
-        if (currentValue !== null) {
-            setCurrentValue(undefined);
-        }
     }
 
     const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value !== null) {
             setCurrentValue(parseInt(event.target.value));
         }
+        setShowError(false);
     };
 
     const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,17 +89,9 @@ const MultiValueInputSelector = (props: Props) => {
         }
     }
 
-    let min = 0, max = 1000;
-    props.rules?.forEach(rule => {
-        let [ruleName, ruleValue] = rule.split(":");
-        if (ruleName === "range") {
-            [min, max] = ruleValue.split("-").map(item => parseInt(item));
-        }
-    });
-
     return (
         <div className="multi-input-container">
-            <div className="multi-input-control">
+            <div className={"multi-input-control" + (showError ? " border-red": "")}>
                 <div className="multi-select-valueContainer">
                     {values.map((value, index) => {
                         return <div key={index} className="multi-select-value">
