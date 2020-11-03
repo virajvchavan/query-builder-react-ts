@@ -1,8 +1,10 @@
-import { render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import React from "react";
 import userEvent from '@testing-library/user-event'
 import { NumberInput } from "../NumberInput";
 import { rulesType } from '../RhsInput';
+
+afterEach(cleanup);
 
 test("it should render an input with type=number", () => {
     const { getByTestId } = render(<NumberInput rules={[]} value="" options={{placeholder: "Type a number"}} onNormalRhsChange={jest.fn()} />);

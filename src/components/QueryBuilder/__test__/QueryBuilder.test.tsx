@@ -6,6 +6,8 @@ import queryConfig from '../../../queryConfig/queryConfig';
 
 // Mostly integration tests
 
+afterEach(cleanup)
+
 test("it should have mandatory elements", () => {
     const { getByText } = render(<QueryBuilder queryConfig={queryConfig} />);
 

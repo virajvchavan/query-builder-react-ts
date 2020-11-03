@@ -1,9 +1,11 @@
-import { render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import React from "react";
 import userEvent from '@testing-library/user-event'
 import MultiSelectList from "../MultiSelectList";
 import { rulesType } from '../RhsInput';
 import { JsonType } from '../../QueryRow';
+
+afterEach(cleanup);
 
 test("it should render correct list specified in a json file", () => {
     let rules: rulesType = ["file:countries.test.json"];
@@ -14,7 +16,7 @@ test("it should render correct list specified in a json file", () => {
     // when dropdown is open, all the provided values should be rendered
     let optionsJson: JsonType = require("../../../../queryConfig/" + rules[0].split(":")[1]);
     Object.values(optionsJson).forEach(value => {
-        expect(getByText(value)).not.toBeNull();
+        expect(getByText(`${value}`)).not.toBeNull();
     });
 });
 
@@ -28,6 +30,6 @@ test("it should display correct defaultValues when provided", () => {
 
     // when dropdown is not open, the default values should already be displayed
     defaultValues.forEach(key => {
-        expect(getByText(optionsJson[key])).not.toBeNull();
+        expect(getByText(`${optionsJson[key]}`)).not.toBeNull();
     });
 });
