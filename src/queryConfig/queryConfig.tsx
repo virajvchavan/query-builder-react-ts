@@ -7,7 +7,7 @@ export interface Row {
     label: string,
     operators: Array<Operator>;
     rhs: {
-        type: string;
+        type: "text" | "number" | "multi-select-list" | "multi-select-numbers-in-a-range";
         config?: string;
     }
 }
