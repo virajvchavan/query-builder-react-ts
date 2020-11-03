@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Row } from '../../queryConfig/queryConfig';
 import Select, { ValueType } from 'react-select';
 import RhsInput from './RhsInput/RhsInput';
+import { RhsType } from './QueryBuilder';
 
 interface Props {
     lhs: string,
     operator: string,
     rhs?: string | Array<number> | Array<string>,
     index: number,
-    removeRow: Function,
+    removeRow: (index: number) => void,
     queryConfig: Row,
     lhsOptions: Array<OptionType>,
-    onLhsChange: Function,
-    onOperatorChange: Function,
-    onRhsChange: Function,
+    onLhsChange: (index: number, lhs: ValueType<OptionType>) => void,
+    onOperatorChange: (index: number, operator: ValueType<OptionType>) => void,
+    onRhsChange: (index: number, rhs: RhsType) => void,
     onCustomSelectRhsChange: Function
 }
 

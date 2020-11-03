@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { ValueType } from 'react-select';
 import { ConfigType } from '../../queryConfig/queryConfig';
 import StyledInput from '../StyledInput/StyledInput';
 import './QueryBuilder.css';
 import QueryRow from './QueryRow';
 import SavedQueries from './SavedQueries/SavedQueries';
+import { OptionType } from './QueryRow';
 
-type RhsType = string | Array<number> | Array<string>;
+export type RhsType = string | Array<number> | Array<string>;
 
 export interface QueryRowType {
     lhs: string,
@@ -16,11 +18,6 @@ export interface QueryRowType {
 interface Props {
     queryConfig: ConfigType
 }
-
-type OptionType = {
-    value: string;
-    label: string;
-};
 
 export type SavedQueryRow = {
     name: string;
@@ -95,11 +92,12 @@ export default function QueryBuilder({ queryConfig }: Props) {
         }
     }
 
-    const onLhsChange = (index: number, lhs: OptionType) => {
+    const onLhsChange = (index: number, lhs: ValueType<OptionType>) => {
+        let newValue = lhs as OptionType;
         let newRows = [...queryRows];
-        let operator = queryConfig[lhs.value].operators[0];
+        let operator = queryConfig[newValue.value].operators[0];
         newRows[index] = {
-            lhs: lhs.value,
+            lhs: newValue.value,
             operator: operator.value,
             rhs: ""
         }
@@ -118,9 +116,10 @@ export default function QueryBuilder({ queryConfig }: Props) {
         setQueryRows(newRows);
     }
 
-    const onOperatorChange = (index: number, operator: OptionType) => {
+    const onOperatorChange = (index: number, operator: ValueType<OptionType>) => {
+        let newValue = operator as OptionType;
         let newRows = [...queryRows];
-        newRows[index].operator = operator.value;
+        newRows[index].operator = newValue.value;
         setQueryRows(newRows);
     }
 
