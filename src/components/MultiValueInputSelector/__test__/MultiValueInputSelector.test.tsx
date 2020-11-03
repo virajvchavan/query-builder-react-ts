@@ -1,7 +1,9 @@
-import { render } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
 import React from "react";
 import userEvent from '@testing-library/user-event'
 import MultiValueInputSelector from "../MultiValueInputSelector";
+
+afterEach(cleanup);
 
 test("it should have mandatory elements", () => {
     const { getByLabelText, getByText } = render(<MultiValueInputSelector type="number" />);
@@ -102,4 +104,31 @@ test("it should call onChange method with correct params", () => {
     userEvent.type(input, "67");
     userEvent.click(addBtn);
     expect(onChange).toHaveBeenLastCalledWith([102, 67]);
+});
+
+test("it should follow min max validations if provided through rules prop", () => {
+    const { getByLabelText, getByText, container, queryByText } = render(<MultiValueInputSelector type="number" rules={["range:1-1000"]} />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+    expect(getByText("102")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
+
+    // add a number greater than max
+    userEvent.type(input, "1200");
+    userEvent.click(addBtn);
+    expect(queryByText("1200")).toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
+
+    // value should not be cleared
+    expect(input).toHaveValue(1200);
+
+    // clear the input
+    userEvent.clear(input);
+
+    userEvent.type(input, "-24");
+    userEvent.click(addBtn);
+    expect(queryByText("-24")).toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
 });
