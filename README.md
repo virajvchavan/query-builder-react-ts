@@ -83,6 +83,7 @@ Deployed here: https://query-builder-react-ts.herokuapp.com/
  - Can separate presentational compoenents into their own.
  - Can use the styles-components approach. I haven't put much efforts into managing the styles. Most styles are dumped into `SavedQuries.css` without much though.
  - Can make some components configurable for their styles.
+ - UI is not responsive right now. Fixed widths are given to most elements. Should be fixed.
 
 **Functionality:**
  - Validations can be done in a better way. Currently only the `MultiValueInputSelector` component has proper validations. Some central level validation schema can be setup. (I like https://github.com/jquense/yup).
