@@ -20,11 +20,11 @@ interface Props {
 
 export type OptionType = {
     value: string;
-    label: string;
+    label: string | number;
 };
 
 export type JsonType = {
-    [key: string]: string
+    [key: string]: string | number
 }
 
 export default function QueryRow({ lhs, rhs, operator, index, queryConfig, removeRow, lhsOptions, onLhsChange, onOperatorChange, onRhsChange, onCustomSelectRhsChange }: Props) {
