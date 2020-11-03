@@ -182,3 +182,15 @@ test("it should call console.log with correct json when apply btn is clicked", (
         rhs: "bangalore"
     }]);
 });
+
+test("it should match snapshot for the first render", () => {
+    const { asFragment } = render(<QueryBuilder queryConfig={queryConfig} />)
+    expect(asFragment()).toMatchSnapshot()
+});
+
+test("it should match snapshot when a new row is added", () => {
+    const { asFragment, getByText, queryAllByTestId } = render(<QueryBuilder queryConfig={queryConfig} />);
+    expect(queryAllByTestId("queryRow").length).toBe(1);
+    userEvent.click(getByText("+ Add"));
+    expect(asFragment()).toMatchSnapshot();
+});

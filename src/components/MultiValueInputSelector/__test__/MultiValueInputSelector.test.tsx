@@ -132,3 +132,24 @@ test("it should follow min max validations if provided through rules prop", () =
     expect(queryByText("-24")).toBeNull();
     expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
 });
+
+test("it should match snapshot when type is number; for first render", () => {
+    const { asFragment } = render(<MultiValueInputSelector type="number"  />)
+    expect(asFragment()).toMatchSnapshot();
+});
+
+test("it should match snapshot when type is number & range is specified; for first render", () => {
+    const { asFragment } = render(<MultiValueInputSelector type="number" rules={["range:1-1000"]} />)
+    expect(asFragment()).toMatchSnapshot();
+});
+
+test("it should match snapshot when an element is added", () => {
+    const { asFragment, container, getByLabelText, getByText } = render(<MultiValueInputSelector type="number" />);
+    let input = getByLabelText("Enter values");
+    let addBtn = getByText("+");
+    userEvent.type(input, "102");
+    userEvent.click(addBtn);
+    expect(getByText("102")).not.toBeNull();
+    expect(container.querySelectorAll(".multi-select-value").length).toBe(1);
+    expect(asFragment()).toMatchSnapshot();
+});

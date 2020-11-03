@@ -33,3 +33,10 @@ test("it should display correct defaultValues when provided", () => {
         expect(getByText(`${optionsJson[key]}`)).not.toBeNull();
     });
 });
+
+test("it should match snapshot for the first render", () => {
+    let rules: rulesType = ["file:countries.test.json"];
+    let onChange = jest.fn();
+    const { asFragment } = render(<MultiSelectList rhs={[]} rules={rules} onSelectRhsChange={onChange} />);
+    expect(asFragment()).toMatchSnapshot()
+});

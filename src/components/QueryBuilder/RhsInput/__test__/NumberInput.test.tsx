@@ -30,3 +30,8 @@ test("it should call onChange function when user types", () => {
     userEvent.type(inputElement, "5");
     expect(onChange).toHaveBeenCalledTimes(1);
 });
+
+test("it should match snapshot for the initial render", () => {
+    const { asFragment } = render(<NumberInput rules={[]} value="" options={{placeholder: "Type a number"}} onNormalRhsChange={jest.fn()} />);
+    expect(asFragment()).toMatchSnapshot()
+});
