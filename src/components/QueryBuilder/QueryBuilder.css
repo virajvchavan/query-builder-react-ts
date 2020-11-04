@@ -1,0 +1,99 @@
+.querySelector {
+    width: 743px;
+    padding: 40px;
+    margin: 10px 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.querySelector .allQueries {
+    display: flex;
+    padding: 10px;
+    margin: 30px 0;
+    background-color: #fbfbfb;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.querySelector .allQueries .where {
+    width: 60px;
+    margin-top: 9px;
+    margin-left: 7px;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 18px;
+}
+
+.row>* {
+    margin: 0 6px;
+}
+
+.applyBtn, .saveBtn {
+    float: right;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 10px;
+    width: fit-content;
+}
+
+.removeBtn {
+    line-height: 15px;
+    color: red;
+    font-weight: bold;
+}
+
+.addBtn,
+.applyBtn,
+.saveBtn ,
+.clearAll {
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.saveBtn.disabled {
+    color: #3f3f3f;
+    background-color: #b9b9b9;
+}
+
+.applyBtn {
+    background-color: rgb(14, 123, 42);
+    margin-left: 10px;
+}
+
+.saveBtn {
+    margin-left: 3px;
+}
+.clearAll {
+    background-color: #cb0000;
+    margin-left: 10px;
+}
+.lhs {
+    width: 150px;
+}
+
+.operator {
+    width: 160px;
+}
+
+.rhs {
+    width: 271px;
+}
+.queryNameInputContainer {
+    display: inline-flex;
+    float: right;
+}
+.noQueriesNotice {
+    margin-top: 9px;
+    color: blue;
+}
+.rhs .border-red {
+    border-color: red;
+}

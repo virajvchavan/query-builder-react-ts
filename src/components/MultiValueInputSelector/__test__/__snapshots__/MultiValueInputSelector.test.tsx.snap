@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it should match snapshot when an element is added 1`] = `
+<DocumentFragment>
+  <div
+    class="multi-input-container"
+  >
+    <div
+      class="multi-input-control"
+    >
+      <div
+        class="multi-select-valueContainer"
+      >
+        <div
+          class="multi-select-value"
+        >
+          <div
+            class="multi-select-value-text"
+          >
+            102
+          </div>
+          <div
+            class="multi-select-value-closeBtn"
+            data-testid="removeBtn"
+            data-value="102"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              height="14"
+              viewBox="0 0 20 20"
+              width="14"
+            >
+              <path
+                d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="multi-select-inputBox"
+        >
+          <div
+            style="display: inline-block; width: 100%;"
+          >
+            <label
+              for="multi-value-input"
+              style="display: none;"
+            >
+              Enter values
+            </label>
+            <input
+              id="multi-value-input"
+              max="1000"
+              min="0"
+              placeholder="Enter values (0-1000)"
+              type="number"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="multi-select-BtnContainer"
+      >
+        <div
+          class="multi-select-btn"
+          data-testid="removeAllBtn"
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            height="20"
+            viewBox="0 0 20 20"
+            width="20"
+          >
+            <path
+              d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+            />
+          </svg>
+        </div>
+        <div
+          class="multi-select-btnSeparator"
+        />
+        <div
+          class="multi-select-btn add-all-btn"
+        >
+          +
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`it should match snapshot when type is number & range is specified; for first render 1`] = `
+<DocumentFragment>
+  <div
+    class="multi-input-container"
+  >
+    <div
+      class="multi-input-control"
+    >
+      <div
+        class="multi-select-valueContainer"
+      >
+        <div
+          class="multi-select-inputBox"
+        >
+          <div
+            style="display: inline-block; width: 100%;"
+          >
+            <label
+              for="multi-value-input"
+              style="display: none;"
+            >
+              Enter values
+            </label>
+            <input
+              id="multi-value-input"
+              max="1000"
+              min="1"
+              placeholder="Enter values (1-1000)"
+              type="number"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="multi-select-BtnContainer"
+      >
+        <div
+          class="multi-select-btnSeparator"
+        />
+        <div
+          class="multi-select-btn add-all-btn"
+        >
+          +
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`it should match snapshot when type is number; for first render 1`] = `
+<DocumentFragment>
+  <div
+    class="multi-input-container"
+  >
+    <div
+      class="multi-input-control"
+    >
+      <div
+        class="multi-select-valueContainer"
+      >
+        <div
+          class="multi-select-inputBox"
+        >
+          <div
+            style="display: inline-block; width: 100%;"
+          >
+            <label
+              for="multi-value-input"
+              style="display: none;"
+            >
+              Enter values
+            </label>
+            <input
+              id="multi-value-input"
+              max="1000"
+              min="0"
+              placeholder="Enter values (0-1000)"
+              type="number"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="multi-select-BtnContainer"
+      >
+        <div
+          class="multi-select-btnSeparator"
+        />
+        <div
+          class="multi-select-btn add-all-btn"
+        >
+          +
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
